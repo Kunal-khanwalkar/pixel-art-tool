@@ -1,5 +1,7 @@
 import sys
 import pygame
+
+from src.Easel import Easel
 from src.Palette import Palette
 
 WIDTH: int = 800
@@ -12,21 +14,15 @@ class Painter:
         self.surface = pygame.display.set_mode((WIDTH, HEIGHT), pygame.RESIZABLE)
         self.clock = pygame.time.Clock()
 
-        self.canvas: pygame.surface.Surface = None 
+        self.easel = Easel()
         self.palette = Palette()
 
         self._resize()
 
     def run(self) -> None:
         while True:
-            self.surface.blit(self.canvas, (0,0))
-            self.canvas.fill((0,0,0))
-
-            self.surface.blit(self.palette.surf, (self.canvas.get_width(), 0))
-            self.palette.surf.fill((100,100,100))
-
-            self.palette.draw_palette(self.canvas)
-            print(self.palette.color_selected)
+            self.easel.blit(self.surface, (0,0))
+            self.palette.blit(self.surface, (self.easel.surf.get_width(), 0))
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -39,7 +35,7 @@ class Painter:
             self.clock.tick(60)
 
     def _resize(self) -> None:
-        self.canvas = pygame.surface.Surface((2 * self.surface.get_width() / 3, self.surface.get_height()))
+        self.easel.resize(self.surface)
         self.palette.resize(self.surface)
 
 if __name__=='__main__':
