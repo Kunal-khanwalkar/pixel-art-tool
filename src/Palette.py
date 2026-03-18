@@ -35,7 +35,7 @@ class Palette:
         self._define_color_rects()
         return self.surf
 
-    def blit(self, parent_surf: pygame.surface.Surface, coordinates: tuple[int, int]):
+    def blit(self, parent_surf: pygame.surface.Surface, coordinates: tuple[int, int]) -> None:
         parent_surf.blit(self.surf, coordinates)
         self.surf.fill((100,100,100))
         self._draw_palette(coordinates)
