@@ -19,3 +19,6 @@ class Easel:
 
         self.canvas.blit(self.surf, (0,0))
         self.spritesheet.blit(self.surf, (0, self.canvas.surf.get_height()))
+
+    def set_color(self, color: str):
+        self.canvas.color_selected = color

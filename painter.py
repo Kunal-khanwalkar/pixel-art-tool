@@ -24,6 +24,8 @@ class Painter:
             self.easel.blit(self.surface, (0,0))
             self.palette.blit(self.surface, (self.easel.surf.get_width(), 0))
 
+            self.easel.set_color(self.palette.get_color())
+
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()

@@ -32,8 +32,12 @@ class Palette:
     def resize(self, parent_surf: pygame.surface.Surface) -> None:
         self.surf = pygame.surface.Surface((parent_surf.get_width() // 3, parent_surf.get_height()))
         self._tile_size = min(self.surf.get_width(), self.surf.get_height()) // 5
+        self.color_selected = self.color_selected or "#000000"
         self._define_color_rects()
         return self.surf
+
+    def get_color(self) -> str:
+        return self.color_selected
 
     def blit(self, parent_surf: pygame.surface.Surface, coordinates: tuple[int, int]) -> None:
         parent_surf.blit(self.surf, coordinates)
@@ -57,7 +61,7 @@ class Palette:
                 self.color_selected = COLOR_PALETTE[idx]
 
     def _define_color_rects(self) -> None:
-        self._rects: list[pygame.rect.Rect] = []
+        self._rects = []
         self._X_PADDING = (self.surf.get_width() - (self._tile_size * 4)) // 2
         self._Y_PADDING = (self.surf.get_height() - (self._tile_size * 4)) // 2
 

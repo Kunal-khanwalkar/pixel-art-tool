@@ -3,15 +3,18 @@ import pygame
 class Canvas:
     def __init__(self) -> None:
         self.surf: pygame.surface.Surface = None
+        self.color_selected: str = None
 
         self._tile_size: int = 0
         self._rects: list[pygame.rect.Rect] = []
+        self._rect_colors: list[str] = None
         self._X_PADDING: int = 0
         self._Y_PADDING: int = 0
 
     def resize(self, parent_surf: pygame.surface.Surface) -> None:
         self.surf = pygame.surface.Surface((parent_surf.get_width(), 3 * parent_surf.get_height() // 4))
         self._tile_size = min(self.surf.get_width(), self.surf.get_height()) // 9
+        self._rect_colors = self._rect_colors or ["#000000"] * (8 * 8)
         self._define_canvas_rects()
 
     def blit(self, parent_surf: pygame.surface.Surface, coordinates: tuple[int, int]) -> None:
@@ -22,7 +25,7 @@ class Canvas:
 
     def _draw_canvas(self) -> None:
         for i in range (8 * 8):
-            pygame.draw.rect(self.surf, (0,0,0), self._rects[i])
+            pygame.draw.rect(self.surf, pygame.Color(self._rect_colors[i]), self._rects[i])
             self._hover_and_select(i, (0,0))
 
     def _hover_and_select(self, idx: int, offset: tuple[int, int]) -> None:
@@ -33,8 +36,11 @@ class Canvas:
             pygame.draw.rect(self.surf, pygame.Color(255,255,255), self._rects[idx], 2)
             pygame.draw.rect(self.surf, pygame.Color(0,0,0), self._rects[idx], 1)
 
+            if pygame.mouse.get_pressed()[0]:
+                self._rect_colors[idx] = self.color_selected
+
     def _define_canvas_rects(self) -> None:
-        self._rects: list[pygame.rect.Rect] = []
+        self._rects = []
         self._X_PADDING = (self.surf.get_width() - (self._tile_size * 8)) // 2
         self._Y_PADDING = (self.surf.get_height() - (self._tile_size * 8)) // 2
 
