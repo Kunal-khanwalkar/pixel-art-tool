@@ -1,12 +1,13 @@
 import pygame
 from .Canvas import Canvas
 from .Spritesheet import Spritesheet
+from .SpriteHandler import SpriteHandler
 
 class Easel:
-    def __init__(self) -> None:
+    def __init__(self, sprite_handler: SpriteHandler) -> None:
         self.surf: pygame.surface.Surface = None
 
-        self.canvas = Canvas()
+        self.canvas = Canvas(sprite_handler)
         self.spritesheet = Spritesheet()
 
     def resize(self, parent_surf: pygame.surface.Surface) -> None:

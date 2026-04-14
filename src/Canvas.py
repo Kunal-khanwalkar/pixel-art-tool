@@ -1,9 +1,11 @@
 import pygame
+from .SpriteHandler import SpriteHandler
 
 class Canvas:
-    def __init__(self) -> None:
+    def __init__(self, SpriteHandler: SpriteHandler) -> None:
         self.surf: pygame.surface.Surface = None
         self.color_selected: str = None
+        self.sprite_handler = SpriteHandler
 
         self._tile_size: int = 0
         self._rects: list[pygame.rect.Rect] = []
@@ -23,6 +25,9 @@ class Canvas:
 
         self._draw_canvas()
 
+    def reset(self):
+        self._rect_colors = [self.sprite_handler.sprites[self.sprite_handler.offset + (idx // 8 * 128 + idx % 8)].color for idx in range (8*8)]
+
     def _draw_canvas(self) -> None:
         for i in range (8 * 8):
             pygame.draw.rect(self.surf, pygame.Color(self._rect_colors[i]), self._rects[i])
@@ -38,6 +43,8 @@ class Canvas:
 
             if pygame.mouse.get_pressed()[0]:
                 self._rect_colors[idx] = self.color_selected
+                transformed_idx = self.sprite_handler.offset + idx // 8 * 128 + idx % 8
+                self.sprite_handler.sprites[transformed_idx].color = self.color_selected
 
     def _define_canvas_rects(self) -> None:
         self._rects = []

@@ -3,6 +3,7 @@ import pygame
 
 from src.Easel import Easel
 from src.Palette import Palette
+from src.SpriteHandler import SpriteHandler
 
 WIDTH: int = 800
 HEIGHT: int = 600
@@ -14,7 +15,8 @@ class Painter:
         self.surface = pygame.display.set_mode((WIDTH, HEIGHT), pygame.RESIZABLE)
         self.clock = pygame.time.Clock()
 
-        self.easel = Easel()
+        self.sprite_handler = SpriteHandler()
+        self.easel = Easel(self.sprite_handler)
         self.palette = Palette()
 
         self._resize()
@@ -32,6 +34,21 @@ class Painter:
                     sys.exit()
                 if event.type == pygame.WINDOWRESIZED:
                     self._resize()
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_UP:
+                        self.sprite_handler.offset -= 128 * 8 if self.sprite_handler.offset >= 128 * 8 else 0
+                        self.easel.canvas.reset()
+                    if event.key == pygame.K_DOWN:
+                        self.sprite_handler.offset += 128 * 8 if self.sprite_handler.offset < (128 * 32) - 128 * 8 else 0
+                        self.easel.canvas.reset()
+                    if event.key == pygame.K_LEFT:
+                        self.sprite_handler.offset -= 8 if self.sprite_handler.offset >= 8 else 0
+                        self.easel.canvas.reset()
+                    if event.key == pygame.K_RIGHT:
+                        self.sprite_handler.offset += 8 if self.sprite_handler.offset < (128 * 32) - 8 else 0
+                        self.easel.canvas.reset()
+                    if event.key == pygame.K_s:
+                        self.sprite_handler.save("spritesheet.csv")
 
             pygame.display.update()
             self.clock.tick(60)

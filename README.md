@@ -23,8 +23,8 @@
 ![Pico 8 Palette](./palette.png)
 
 ## Functional Requirements
-1. Sprite Painting Tool, Sprite size 16x16 (w/ variable canvas size)
-2. Exports a sprite sheet to .bmp
+1. ~~Sprite Painting Tool, Sprite size 16x16 (w/ variable canvas size)~~
+2. Exports a sprite sheet to .bmp ~~(stores as CSV for now)~~
 3. Provides imports for sprite painting tool and sprite loading API to end user
 4. Ability to Hot reload sprite
 
